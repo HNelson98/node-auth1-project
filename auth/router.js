@@ -1,4 +1,5 @@
 const bcryptjs = require("bcryptjs");
+
 const router = require("express").Router();
 
 const Users = require("../users/users-model.js");
@@ -40,6 +41,10 @@ router.post('/login', (req, res) => {
                
 
                 if (user && bcryptjs.compareSync(password, user.password)) {
+
+                    //session and cookie
+                    req.session.loggedIn = true;
+                    req.session.user = user;
 
                     res.status(200).json({ message: 'Welcome!' })
 
